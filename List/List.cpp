@@ -497,6 +497,7 @@ pList MergeList_R(pList p1, pList p2)
 		newlist = p2;
 		newlist->next = MergeList_R(p1, p2->next);
 	}
+	return newlist;
 }
 //遍历一次找到链表的中间节点(快慢指针)
 pNode FindMidNode(pList plist)
@@ -636,4 +637,98 @@ pNode GetCrossNode(pList p1, pList p2)
 		cur2 = cur2->next;
 	}
 	return cur1;
+}
+void Unionset(pList p1, pList p2)
+{
+	if ((p1 == NULL) || (p2 == NULL))
+		return;
+	pNode cur1 = p1;
+	pNode cur2 = p2;
+	while (p1 && p2)
+	{
+		if (cur1->data < cur2->data)
+		{
+			cur1 = cur1->next;
+		}
+		else if (cur1->data > cur2->data)
+		{
+			cur2 = cur2->next;
+		}
+		else
+		{
+			printf("%d", cur1->data);
+			cur1 = cur1->next;
+			cur2 = cur2->next;
+		}
+	}
+}
+ComplexNode* BuyComplexNode(DataType d)
+{
+	ComplexNode* p = (ComplexNode*)malloc(sizeof(ComplexNode));
+	p->data = d;
+	p->next = NULL;
+	p->random = NULL;
+
+	return p;
+}
+void PrintComplexList(ComplexNode* plist)
+{
+	ComplexNode* cur = plist;
+	while (cur != NULL)
+	{
+		printf("%d:", cur->data);
+		if (cur->random != NULL)
+			printf("(%d)-->", cur->random);
+		else
+			printf("(NULL)-->");
+		cur = cur->next;
+	}
+	printf("Over\n");
+}
+ComplexNode* CopyComplexList(ComplexNode* plist)
+{
+	ComplexNode* cur = plist;
+	ComplexNode* next = cur->next;
+	ComplexNode* newnode = NULL;
+	ComplexNode* cp = NULL;
+	ComplexNode* newlist = NULL;
+	//在当前节点的后面插入一个当前节点的数据
+	//cur newnode next
+	while (cur != NULL)
+	{
+		newnode = BuyComplexNode(cur->data);
+		cur->next = newnode;
+		newnode->next = next;
+		cur = next;
+		next = cur->next;
+	}
+	//调整插入节点的random指针
+	cur = plist;
+	cp = cur->next;
+	while (cur != NULL)
+	{
+		if(cur->random != NULL)
+			cp->random = cur->random->next;
+		cur = cp->next;
+		if(cur != NULL)
+			cp = cur->next;
+	}
+	//拆除链表
+	cur = plist;
+	cp = cur->next;
+	newlist = cp;
+	while (cur)
+	{
+		cur->next = cp->next;
+		if(cur->next)
+			cp->next = cur->next->next;
+		cur = cur->next;
+		cp = cp->next;
+	}
+	return newlist;
+}
+
+int main()
+{
+	return 0;
 }

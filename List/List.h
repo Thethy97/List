@@ -59,3 +59,19 @@ int CheckCross(pList p1, pList p2);
 //求交点
 //如果一条链表带环，一条不带，绝对不可能相交
 pNode GetCrossNode(pList p1, pList p2);
+//求两个有序单链表的交集（差集）
+void Unionset(pList p1, pList p2);
+//复杂链表的复制
+//一个链表的每个节点，有一个指向next指针指向下一个节点
+//还有一个random指针指向这个链表的一个随机节点或者NULL
+typedef struct ComplexNode
+{
+	DataType data;
+	struct ComplexNode* next;
+	struct ComplexNode* random;
+}ComplexNode;
+
+ComplexNode* BuyComplexNode(DataType d);
+void PrintComplexList(ComplexNode* plist);
+ComplexNode* CopyComplexList(ComplexNode* plist);
+
